@@ -12,17 +12,17 @@ namespace BinaryMesh.Data.R.Graph
 {
     internal sealed class RStringVector : RObject, IRStringVector, IRVector
     {
-        private IRString[] _items;
+        private string[] _items;
 
         public RStringVector(long length)
             : base(RNodeType.String)
         {
-            _items = new IRString[length];
+            _items = new string[length];
         }
 
         public long Count => _items.Length;
 
-        public IRString this[long index]
+        public string this[long index]
         {
             get => _items[index];
             set => _items[index] = value;
@@ -31,10 +31,10 @@ namespace BinaryMesh.Data.R.Graph
         object IRVector.this[long index]
         {
             get => _items[index];
-            set => _items[index] = (IRString)value;
+            set => _items[index] = (string)value;
         }
 
-        IEnumerator<IRString> IEnumerable<IRString>.GetEnumerator()
+        IEnumerator<string> IEnumerable<string>.GetEnumerator()
         {
             for (long i = 0; i < Count; i++)
             {
@@ -44,7 +44,7 @@ namespace BinaryMesh.Data.R.Graph
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (this as IEnumerable<IRString>).GetEnumerator();
+            return (this as IEnumerable<string>).GetEnumerator();
         }
     }
 }

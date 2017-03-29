@@ -362,10 +362,10 @@ namespace BinaryMesh.Data.R.Graph
                         case SEXPTYPE.STRSXP:
                             {
                                 long length = ReadLength(reader);
-                                IRVector vector = RVector.AllocateVector((RNodeType)type, length);
+                                IRStringVector vector = new RStringVector(length);
                                 for (long i = 0; i < length; i++)
                                 {
-                                    vector[i] = ReadItem(reader);
+                                    vector[i] = ((IRString)ReadItem(reader)).String;
                                 }
 
                                 result = vector;

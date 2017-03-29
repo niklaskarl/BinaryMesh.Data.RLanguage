@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
-    /// Represents a vector of <see cref="IRString"/> items in the R object graph.
+    /// Represents a vector of <see cref="string"/> items in the R object graph.
     /// </summary>
-    public interface IRStringVector : IRNode, IEnumerable<IRString>
+    public interface IRStringVector : IRNode, IEnumerable<string>
     {
         /// <summary>
         /// Gets the number of elements in the vector.
@@ -24,6 +24,6 @@ namespace BinaryMesh.Data.R.Graph
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        IRString this[long index] { get; set; }
+        string this[long index] { get; set; }
     }
 }

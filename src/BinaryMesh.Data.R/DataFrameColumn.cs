@@ -21,10 +21,6 @@ namespace BinaryMesh.Data.R
         internal DataFrameColumn(IRVector column)
         {
             _column = column;
-            if (_column is IRStringVector vector)
-            {
-                _column = new StringVectorWrapper(vector);
-            }
         }
 
         /// <summary>
@@ -82,7 +78,7 @@ namespace BinaryMesh.Data.R
         /// <returns>The element at the specified index as a string.</returns>
         public string GetString(long index)
         {
-            if (_column is StringVectorWrapper column)
+            if (_column is IRStringVector column)
             {
                 return column[index];
             }
@@ -92,71 +88,7 @@ namespace BinaryMesh.Data.R
 
         internal IRNode GetVectorNode()
         {
-            if (_column is StringVectorWrapper stringVector)
-            {
-                return stringVector.BaseVector;
-            }
-
             return _column;
-        }
-
-        private class StringVectorWrapper : IRVector
-        {
-            private IRStringVector _vector;
-
-            public StringVectorWrapper(IRStringVector vector)
-            {
-                _vector = vector;
-            }
-
-            public long Count => _vector.Count;
-
-            public RNodeType ObjectType => RNodeType.Special;
-
-            public int Levels
-            {
-                get => _vector.Levels;
-                set => _vector.Levels = value;
-            }
-
-            public bool IsObject
-            {
-                get => _vector.IsObject;
-                set => _vector.IsObject = value;
-            }
-
-            public IRNode Attribute
-            {
-                get => _vector.Attribute;
-                set => _vector.Attribute = value;
-            }
-
-            public IRStringVector BaseVector => _vector;
-
-            public string this[long index]
-            {
-                get => _vector[index].String;
-                set => _vector[index] = new RString(value);
-            }
-
-            object IRVector.this[long index]
-            {
-                get => this[index];
-                set => this[index] = (string)value;
-            }
-
-            public IEnumerator<string> GetEnumerator()
-            {
-                for (int i = 0; i < Count; i++)
-                {
-                    yield return this[i];
-                }
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
         }
     }
 }

@@ -191,7 +191,7 @@ namespace BinaryMesh.Data.R
                             Tag = new RString("class"),
                             Head = new RStringVector(1)
                             {
-                                [0] = new RString("data.frame")
+                                [0] = "data.frame"
                             }
                         }
                     }
@@ -258,7 +258,7 @@ namespace BinaryMesh.Data.R
             {
                 for (int i = 0; i < classes.Count; i++)
                 {
-                    if (classes[i].String == "data.frame")
+                    if (classes[i] == "data.frame")
                     {
                         return true;
                     }
@@ -275,7 +275,7 @@ namespace BinaryMesh.Data.R
                 _columns = new KeyValuePair<string, DataFrameColumn>[names.Count];
                 for (int i = 0; i < names.Count; i++)
                 {
-                    _columns[i] = new KeyValuePair<string, DataFrameColumn>(names[i].String, null);
+                    _columns[i] = new KeyValuePair<string, DataFrameColumn>(names[i], null);
                 }
             }
         }
@@ -289,7 +289,7 @@ namespace BinaryMesh.Data.R
             IRStringVector names = new RStringVector(Count);
             for (int i = 0; i < Count; i++)
             {
-                names[i] = new RString(_columns[i].Key);
+                names[i] = _columns[i].Key;
             }
 
             return names;
