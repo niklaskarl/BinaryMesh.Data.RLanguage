@@ -24,6 +24,8 @@ namespace BinaryMesh.Data.R
             }
         }
 
+        public long Count => _column.Count;
+
         public object this[long index]
         {
             get
@@ -31,8 +33,6 @@ namespace BinaryMesh.Data.R
                 return _column[index];
             }
         }
-
-        public long Count => _column.Count;
 
         public int GetInteger(long index)
         {
@@ -73,20 +73,8 @@ namespace BinaryMesh.Data.R
                 _vector = vector;
             }
 
-            public string this[long index]
-            {
-                get => _vector[index].Text;
-                set => _vector[index] = new RString(value);
-            }
-
-            object IRVector.this[long index]
-            {
-                get => this[index];
-                set => this[index] = (string)value;
-            }
-
             public long Count => _vector.Count;
-            
+
             public RObjectType ObjectType => RObjectType.Special;
 
             public int Levels
@@ -105,6 +93,18 @@ namespace BinaryMesh.Data.R
             {
                 get => _vector.Attribute;
                 set => _vector.Attribute = value;
+            }
+
+            public string this[long index]
+            {
+                get => _vector[index].Text;
+                set => _vector[index] = new RString(value);
+            }
+
+            object IRVector.this[long index]
+            {
+                get => this[index];
+                set => this[index] = (string)value;
             }
 
             public IEnumerator<string> GetEnumerator()

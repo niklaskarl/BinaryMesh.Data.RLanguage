@@ -9,14 +9,23 @@ using System.IO;
 
 namespace BinaryMesh.Data.R.Internal
 {
+    internal enum InputReaderType
+    {
+        Ascii,
+        Binary,
+        Xdr
+    }
+
     internal abstract class InputReader
     {
-        protected readonly BinaryReader _reader;
+        private readonly BinaryReader _reader;
 
         protected InputReader(BinaryReader reader)
         {
             _reader = reader;
         }
+
+        protected BinaryReader Reader => _reader;
 
         public static InputReader FromType(BinaryReader reader, InputReaderType type)
         {
@@ -40,12 +49,5 @@ namespace BinaryMesh.Data.R.Internal
         public abstract void ReadIntegerVector(IRIntegerVector vector);
 
         public abstract void ReadRealVector(IRRealVector vector);
-    }
-
-    internal enum InputReaderType
-    {
-        Ascii,
-        Binary,
-        Xdr
     }
 }

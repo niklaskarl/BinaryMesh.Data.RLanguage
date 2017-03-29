@@ -19,7 +19,9 @@ namespace BinaryMesh.Data.R.Internal
         {
             _items = new IRString[length];
         }
-        
+
+        public long Count => _items.Length;
+
         public IRString this[long index]
         {
             get => _items[index];
@@ -32,8 +34,6 @@ namespace BinaryMesh.Data.R.Internal
             set => _items[index] = (IRString)value;
         }
 
-        public long Count => _items.Length;
-        
         IEnumerator<IRString> IEnumerable<IRString>.GetEnumerator()
         {
             for (long i = 0; i < Count; i++)

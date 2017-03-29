@@ -14,7 +14,7 @@ namespace BinaryMesh.Data.R.Internal
         {
             ObjectType = type;
         }
-        
+
         public static IRObject EmptyEnvironment { get; } = new RStaticObject(RObjectType.Environment);
 
         public static IRObject BaseEnvironment { get; } = new RStaticObject(RObjectType.Environment);
@@ -61,6 +61,7 @@ namespace BinaryMesh.Data.R.Internal
                 get => null;
                 set => throw new NotSupportedException();
             }
+
             public IRObject Tag
             {
                 get => null;

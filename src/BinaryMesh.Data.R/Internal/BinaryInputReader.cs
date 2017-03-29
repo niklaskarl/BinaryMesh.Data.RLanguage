@@ -18,12 +18,12 @@ namespace BinaryMesh.Data.R.Internal
 
         public override int ReadInt32()
         {
-            return _reader.ReadInt32();
+            return Reader.ReadInt32();
         }
 
         public override IRString ReadString(int length, RString.CharEncoding encoding)
         {
-            byte[] buffer = _reader.ReadBytes(length);
+            byte[] buffer = Reader.ReadBytes(length);
             return new RString(buffer, encoding);
         }
 
@@ -31,7 +31,7 @@ namespace BinaryMesh.Data.R.Internal
         {
             for (long i = 0; i < vector.Count; i++)
             {
-                vector[i] = _reader.ReadInt32();
+                vector[i] = Reader.ReadInt32();
             }
         }
 
@@ -39,7 +39,7 @@ namespace BinaryMesh.Data.R.Internal
         {
             for (long i = 0; i < vector.Count; i++)
             {
-                vector[i] = _reader.ReadDouble();
+                vector[i] = Reader.ReadDouble();
             }
         }
     }

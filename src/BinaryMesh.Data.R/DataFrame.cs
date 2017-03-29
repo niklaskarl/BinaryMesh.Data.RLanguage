@@ -88,19 +88,6 @@ namespace BinaryMesh.Data.R
             }
         }
 
-        public DataFrameColumn this[string key]
-        {
-            get
-            {
-                if (TryGetValue(key, out DataFrameColumn item))
-                {
-                    return item;
-                }
-
-                throw new KeyNotFoundException();
-            }
-        }
-
         public int Count => _columns.Length;
 
         public long RowCount { get; }
@@ -124,6 +111,19 @@ namespace BinaryMesh.Data.R
                 {
                     yield return _columns[i].Value;
                 }
+            }
+        }
+
+        public DataFrameColumn this[string key]
+        {
+            get
+            {
+                if (TryGetValue(key, out DataFrameColumn item))
+                {
+                    return item;
+                }
+
+                throw new KeyNotFoundException();
             }
         }
 

@@ -20,6 +20,8 @@ namespace BinaryMesh.Data.R.Internal
             _values = new double[length];
         }
 
+        public long Count => _values.Length;
+
         public double this[long index]
         {
             get => _values[index];
@@ -31,8 +33,6 @@ namespace BinaryMesh.Data.R.Internal
             get => _values[index];
             set => _values[index] = (double)value;
         }
-
-        public long Count => _values.Length;
 
         public IEnumerator<double> GetEnumerator()
         {

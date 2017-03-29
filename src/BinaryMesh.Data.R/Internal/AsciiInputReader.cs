@@ -80,64 +80,64 @@ namespace BinaryMesh.Data.R.Internal
             }
 
             char[] buffer = new char[length];
-            char last = (char)_reader.ReadByte();
+            char last = (char)Reader.ReadByte();
 
             do
             {
-                last = (char)_reader.ReadByte();
+                last = (char)Reader.ReadByte();
             }
-            while (char.IsWhiteSpace(last)) ;
+            while (char.IsWhiteSpace(last));
 
-            for(int i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 if (last == '\\')
                 {
-                    last = (char)_reader.ReadByte();
+                    last = (char)Reader.ReadByte();
                     switch (last)
                     {
                         case 'n':
                             buffer[i] = '\n';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case 't':
                             buffer[i] = '\t';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case 'v':
                             buffer[i] = '\v';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case 'b':
                             buffer[i] = '\b';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case 'r':
                             buffer[i] = '\r';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case 'f':
                             buffer[i] = '\f';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case 'a':
                             buffer[i] = '\a';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case '\\':
                             buffer[i] = '\\';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case '?':
                             buffer[i] = '?';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case '\'':
                             buffer[i] = '\'';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case '\"': /* closing " for emacs */
                             buffer[i] = '\"';
-                            last = (char)_reader.ReadByte();
+                            last = (char)Reader.ReadByte();
                             break;
                         case '0':
                         case '1':
@@ -150,8 +150,8 @@ namespace BinaryMesh.Data.R.Internal
                             int d = 0;
                             for (int j = 0; last >= '0' && last < '8' && j < 3; j++)
                             {
-                                d = d * 8 + (last - '0');
-                                last = (char)_reader.ReadByte();
+                                d = (d * 8) + (last - '0');
+                                last = (char)Reader.ReadByte();
                             }
 
                             buffer[i] = (char)d;
@@ -161,7 +161,7 @@ namespace BinaryMesh.Data.R.Internal
                 else
                 {
                     buffer[i] = last;
-                    last = (char)_reader.ReadByte();
+                    last = (char)Reader.ReadByte();
                 }
             }
 
@@ -189,10 +189,10 @@ namespace BinaryMesh.Data.R.Internal
             _wordBuilder.Clear();
 
             char c;
-            
+
             do
             {
-                c = (char)_reader.ReadByte();
+                c = (char)Reader.ReadByte();
             }
             while (char.IsWhiteSpace(c));
 
@@ -201,7 +201,7 @@ namespace BinaryMesh.Data.R.Internal
                 while (!char.IsWhiteSpace(c))
                 {
                     _wordBuilder.Append(c);
-                    c = (char)_reader.ReadByte();
+                    c = (char)Reader.ReadByte();
                 }
             }
             catch (EndOfStreamException)

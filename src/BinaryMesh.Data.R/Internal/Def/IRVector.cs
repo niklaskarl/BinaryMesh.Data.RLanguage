@@ -12,8 +12,8 @@ namespace BinaryMesh.Data.R.Internal
 {
     public interface IRVector : IRObject, IEnumerable
     {
-        object this[long index] { get; set; }
-
         long Count { get; }
+
+        object this[long index] { get; set; }
     }
 }

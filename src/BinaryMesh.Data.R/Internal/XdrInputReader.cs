@@ -19,7 +19,7 @@ namespace BinaryMesh.Data.R.Internal
         public override int ReadInt32()
         {
             byte[] buffer = new byte[4];
-            _reader.Read(buffer, 0, 4);
+            Reader.Read(buffer, 0, 4);
 
             Array.Reverse(buffer);
 
@@ -28,7 +28,7 @@ namespace BinaryMesh.Data.R.Internal
 
         public override IRString ReadString(int length, RString.CharEncoding encoding)
         {
-            byte[] buffer = _reader.ReadBytes(length);
+            byte[] buffer = Reader.ReadBytes(length);
             return new RString(buffer, encoding);
         }
 
@@ -51,7 +51,7 @@ namespace BinaryMesh.Data.R.Internal
         private double ReadDouble()
         {
             byte[] buffer = new byte[8];
-            _reader.Read(buffer, 0, 8);
+            Reader.Read(buffer, 0, 8);
 
             Array.Reverse(buffer);
 

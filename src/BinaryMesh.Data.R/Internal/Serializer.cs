@@ -13,6 +13,56 @@ namespace BinaryMesh.Data.R.Internal
 {
     public static class Serializer
     {
+        private enum SEXPTYPE
+        {
+            NILSXP = 0,         /* nil = NULL */
+            SYMSXP = 1,         /* symbols */
+            LISTSXP = 2,        /* lists of dotted pairs */
+            CLOSXP = 3,         /* closures */
+            ENVSXP = 4,         /* environments */
+            PROMSXP = 5,        /* promises: [un]evaluated closure arguments */
+            LANGSXP = 6,        /* language constructs (special lists) */
+            SPECIALSXP = 7,     /* special forms */
+            BUILTINSXP = 8,     /* builtin non-special forms */
+            CHARSXP = 9,        /* "scalar" string type (internal only)*/
+            LGLSXP = 10,        /* logical vectors */
+            INTSXP = 13,        /* integer vectors */
+            REALSXP = 14,       /* real variables */
+            CPLXSXP = 15,       /* complex variables */
+            STRSXP = 16,        /* string vectors */
+            DOTSXP = 17,        /* dot-dot-dot object */
+            ANYSXP = 18,        /* make "any" args work */
+            VECSXP = 19,        /* generic vectors */
+            EXPRSXP = 20,       /* expressions vectors */
+            BCODESXP = 21,      /* byte code */
+            EXTPTRSXP = 22,     /* external pointer */
+            WEAKREFSXP = 23,    /* weak reference */
+            RAWSXP = 24,        /* raw bytes */
+            S4SXP = 25,         /* S4 non-vector */
+
+            NEWSXP = 30,        /* fresh node creaed in new page */
+            FREESXP = 31,       /* node released by GC */
+
+            FUNSXP = 99,        /* Closure or Builtin */
+
+            REFSXP = 255,
+            NILVALUE_SXP = 254,
+            GLOBALENV_SXP = 253,
+            UNBOUNDVALUE_SXP = 252,
+            MISSINGARG_SXP = 251,
+            BASENAMESPACE_SXP = 250,
+            NAMESPACESXP = 249,
+            PACKAGESXP = 248,
+            PERSISTSXP = 247,
+            /* the following are speculative--we may or may not need them soon */
+            CLASSREFSXP = 246,
+            GENERICREFSXP = 245,
+            BCREPDEF = 244,
+            BCREPREF = 243,
+            EMPTYENV_SXP = 242,
+            BASEENV_SXP = 241
+        }
+
         public static IRObject Unserialize(Stream stream)
         {
             if (stream == null)
@@ -168,6 +218,7 @@ namespace BinaryMesh.Data.R.Internal
                     break;
                 case SEXPTYPE.SYMSXP:
                     return ReadItem(reader);
+
                     // return installChar(ReadItem(reader));
                 case SEXPTYPE.PACKAGESXP:
                     // return R_FindPackageEnv(InStringVec(reader));
@@ -205,6 +256,7 @@ namespace BinaryMesh.Data.R.Internal
                         ThrowTypeNotSupported("ENVSXP");
                         break;
                     }
+
                 case SEXPTYPE.LISTSXP:
                 case SEXPTYPE.LANGSXP:
                 case SEXPTYPE.CLOSXP:
@@ -219,7 +271,7 @@ namespace BinaryMesh.Data.R.Internal
                         Head = ReadItem(reader),
                         Tail = (IRList)ReadItem(reader),
                     };
-                    
+
                     /*if (type == CLOSXP && CLOENV(s) == R_NilValue) SET_CLOENV(s, R_BaseEnv);
                     else if (type == PROMSXP && PRENV(s) == R_NilValue) SET_PRENV(s, R_BaseEnv);*/
 
@@ -250,10 +302,11 @@ namespace BinaryMesh.Data.R.Internal
                                     {
                                         encoding = RString.CharEncoding.Bytes;
                                     }
-                                    
+
                                     return reader.ReadString(length, encoding);
                                 }
                             }
+
                         case SEXPTYPE.REALSXP:
                             {
                                 long length = ReadLength(reader);
@@ -263,6 +316,7 @@ namespace BinaryMesh.Data.R.Internal
                                 result = vector;
                                 break;
                             }
+
                         case SEXPTYPE.INTSXP:
                             {
                                 long length = ReadLength(reader);
@@ -272,6 +326,7 @@ namespace BinaryMesh.Data.R.Internal
                                 result = vector;
                                 break;
                             }
+
                         case SEXPTYPE.STRSXP:
                             {
                                 long length = ReadLength(reader);
@@ -285,6 +340,7 @@ namespace BinaryMesh.Data.R.Internal
 
                                 break;
                             }
+
                         case SEXPTYPE.VECSXP:
                         case SEXPTYPE.EXPRSXP:
                             {
@@ -298,6 +354,7 @@ namespace BinaryMesh.Data.R.Internal
                                 result = vector;
                                 break;
                             }
+
                         default:
                             throw new NotSupportedException();
                     }
@@ -366,56 +423,5 @@ namespace BinaryMesh.Data.R.Internal
         {
             throw new NotSupportedException($"The data was of type '{type}', but this type is not supported by the library.");
         }
-    }
-
-    internal enum SEXPTYPE
-    {
-        NILSXP = 0,         /* nil = NULL */
-        SYMSXP = 1,         /* symbols */
-        LISTSXP = 2,        /* lists of dotted pairs */
-        CLOSXP = 3,         /* closures */
-        ENVSXP = 4,         /* environments */
-        PROMSXP = 5,        /* promises: [un]evaluated closure arguments */
-        LANGSXP = 6,        /* language constructs (special lists) */
-        SPECIALSXP = 7,     /* special forms */
-        BUILTINSXP = 8,     /* builtin non-special forms */
-        CHARSXP = 9,        /* "scalar" string type (internal only)*/
-        LGLSXP = 10,        /* logical vectors */
-        INTSXP = 13,        /* integer vectors */
-        REALSXP = 14,       /* real variables */
-        CPLXSXP = 15,       /* complex variables */
-        STRSXP = 16,        /* string vectors */
-        DOTSXP = 17,        /* dot-dot-dot object */
-        ANYSXP = 18,        /* make "any" args work */
-        VECSXP = 19,        /* generic vectors */
-        EXPRSXP = 20,       /* expressions vectors */
-        BCODESXP = 21,      /* byte code */
-        EXTPTRSXP = 22,     /* external pointer */
-        WEAKREFSXP = 23,    /* weak reference */
-        RAWSXP = 24,        /* raw bytes */
-        S4SXP = 25,         /* S4 non-vector */
-
-        NEWSXP = 30,        /* fresh node creaed in new page */
-        FREESXP = 31,       /* node released by GC */
-
-        FUNSXP = 99,        /* Closure or Builtin */
-
-
-        REFSXP = 255,
-        NILVALUE_SXP = 254,
-        GLOBALENV_SXP =253,
-        UNBOUNDVALUE_SXP = 252,
-        MISSINGARG_SXP = 251,
-        BASENAMESPACE_SXP = 250,
-        NAMESPACESXP = 249,
-        PACKAGESXP = 248,
-        PERSISTSXP = 247,
-        /* the following are speculative--we may or may not need them soon */
-        CLASSREFSXP = 246,
-        GENERICREFSXP = 245,
-        BCREPDEF = 244,
-        BCREPREF=  243,
-        EMPTYENV_SXP = 242,
-        BASEENV_SXP = 241
     }
 }

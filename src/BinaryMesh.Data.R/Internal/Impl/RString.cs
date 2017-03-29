@@ -42,6 +42,14 @@ namespace BinaryMesh.Data.R.Internal
             _text = enc.GetString(buffer, 0, buffer.Length);
         }
 
+        public enum CharEncoding
+        {
+            Native,
+            Utf8,
+            Latin1,
+            Bytes
+        }
+
         public static IRString NotAvailable { get; } = new RString(null);
 
         public RObjectType ObjectType => RObjectType.Char;
@@ -59,13 +67,5 @@ namespace BinaryMesh.Data.R.Internal
         public IRObject CAD { get; set; }
 
         public string Text => _text;
-
-        public enum CharEncoding
-        {
-            Native,
-            Utf8,
-            Latin1,
-            Bytes
-        }
     }
 }
