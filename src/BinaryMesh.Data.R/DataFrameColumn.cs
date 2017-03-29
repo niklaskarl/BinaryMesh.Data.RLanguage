@@ -90,6 +90,11 @@ namespace BinaryMesh.Data.R
             throw new InvalidOperationException();
         }
 
+        internal IRVector GetVectorNode()
+        {
+            throw new NotImplementedException();
+        }
+
         private class StringVectorWrapper : IRVector
         {
             private IRStringVector _vector;

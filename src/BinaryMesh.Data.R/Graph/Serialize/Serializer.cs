@@ -67,7 +67,31 @@ namespace BinaryMesh.Data.R.Graph
         }
 
         /// <summary>
-        /// Unserialized data from a stream to a R object representation.
+        /// Serialized the node to a stream and compresses the data with gzip.
+        /// The stream content will be compatible with the readRDS function of R.
+        /// </summary>
+        /// <param name="node">The node to serialize.</param>
+        /// <param name="stream">The stream to which to write the serialized data to.</param>
+        public static void Serialize(IRNode node, Stream stream)
+        {
+            Serialize(node, stream, true);
+        }
+
+        /// <summary>
+        /// Serialized the node to a stream and optionaly compresses the data with gzip.
+        /// If compression is used, the stream content will be compatible with the readRDS function of R.
+        /// If no compression is used, the stream content will be compatible with the unserialize function of R.
+        /// </summary>
+        /// <param name="node">The node to serialize.</param>
+        /// <param name="stream">The stream to which to write the serialized data to.</param>
+        /// <param name="compress">A value indicating whether to compress the serialized data with gzip.</param>
+        public static void Serialize(IRNode node, Stream stream, bool compress)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Unserializes data from a stream to a R object representation.
         /// </summary>
         /// <param name="stream">The stream whose content to unserialize.</param>
         /// <returns>The unserialized R object.</returns>

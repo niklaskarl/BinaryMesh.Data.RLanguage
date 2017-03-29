@@ -20,16 +20,12 @@ namespace BinaryMesh.Data.R
     /// </summary>
     public sealed class DataFrame : IReadOnlyDictionary<string, DataFrameColumn>
     {
-        private IRNode _object;
-
         private KeyValuePair<string, DataFrameColumn>[] _columns;
 
-        internal DataFrame(IRNode obj)
+        internal DataFrame(IRNode node)
         {
-            _object = obj;
-
             bool isDataFrame = false;
-            for (IRList attribute = _object.Attribute as IRList; attribute != null; attribute = attribute.Tail)
+            for (IRList attribute = node.Attribute as IRList; attribute != null; attribute = attribute.Tail)
             {
                 if (attribute.Tag is IRString tag)
                 {
@@ -53,7 +49,7 @@ namespace BinaryMesh.Data.R
                 throw new InvalidDataException("The object is not a dataframe.");
             }
 
-            if (_object is IRGenericVector columns)
+            if (node is IRGenericVector columns)
             {
                 if (columns.Count != _columns.Length)
                 {
@@ -162,6 +158,55 @@ namespace BinaryMesh.Data.R
         }
 
         /// <summary>
+        /// Serializes the data frame to a file and optionaly compresses it with gzip.
+        /// The stream content will be compatible with the readRDS function of R.
+        /// </summary>
+        /// <param name="stream">The stream to which to write the serialized data frame.</param>
+        public void WriteToStream(Stream stream)
+        {
+            WriteToStream(stream, true);
+        }
+
+        /// <summary>
+        /// Serializes the data frame to a file and compresses it with gzip.
+        /// If compression is used, the stream content will be compatible with the readRDS function of R.
+        /// If no compression is used, the stream content will be compatible with the unserialize function of R.
+        /// </summary>
+        /// <param name="stream">The stream to which to write the serialized data frame.</param>
+        /// <param name="compress">A value indicating whether to compress the data with gzip.</param>
+        public void WriteToStream(Stream stream, bool compress)
+        {
+            IRGenericVector node = new RGenericVector(Count)
+            {
+                Attribute = new RList(RNodeType.List)
+                {
+                    Tag = new RString("names"),
+                    Head = ConstructNamesAttribute(),
+                    Tail = new RList(RNodeType.List)
+                    {
+                        Tag = new RString("row.names"),
+                        Head = ConstructRowNamesAttribute(),
+                        Tail = new RList(RNodeType.List)
+                        {
+                            Tag = new RString("class"),
+                            Head = new RStringVector(1)
+                            {
+                                [0] = new RString("data.frame")
+                            }
+                        }
+                    }
+                }
+            };
+
+            for (int i = 0; i < Count; i++)
+            {
+                node[i] = _columns[i].Value.GetVectorNode();
+            }
+
+            Serializer.Serialize(node, stream, compress);
+        }
+
+        /// <summary>
         /// Checks whether the data frame contains a column with the specified name.
         /// </summary>
         /// <param name="columnName">The name of the column.</param>
@@ -237,6 +282,28 @@ namespace BinaryMesh.Data.R
 
         private void ProcessRowNamesAttribute(IRNode item)
         {
+        }
+
+        private IRNode ConstructNamesAttribute()
+        {
+            IRStringVector names = new RStringVector(Count);
+            for (int i = 0; i < Count; i++)
+            {
+                names[i] = new RString(_columns[i].Key);
+            }
+
+            return names;
+        }
+
+        private IRNode ConstructRowNamesAttribute()
+        {
+            IRIntegerVector rowNames = new RIntegerVector(RowCount);
+            for (int i = 0; i < Count; i++)
+            {
+                rowNames[i] = i;
+            }
+
+            return rowNames;
         }
     }
 }
