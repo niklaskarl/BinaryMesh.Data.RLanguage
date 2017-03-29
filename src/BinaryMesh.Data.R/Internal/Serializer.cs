@@ -11,6 +11,9 @@ using System.Text;
 
 namespace BinaryMesh.Data.R.Internal
 {
+    /// <summary>
+    /// Provides methods for serializing and unserializing R objects.
+    /// </summary>
     public static class Serializer
     {
         private enum SEXPTYPE
@@ -63,6 +66,11 @@ namespace BinaryMesh.Data.R.Internal
             BASEENV_SXP = 241
         }
 
+        /// <summary>
+        /// Unserialized data from a stream to a R object representation.
+        /// </summary>
+        /// <param name="stream">The stream whose content to unserialize.</param>
+        /// <returns>The unserialized R object.</returns>
         public static IRObject Unserialize(Stream stream)
         {
             if (stream == null)

@@ -13,6 +13,11 @@ using BinaryMesh.Data.R.Internal;
 
 namespace BinaryMesh.Data.R
 {
+    /// <summary>
+    /// A tabular data structure to store large sets of data.
+    /// It is compatible with R data.frame objects and can be read from and
+    /// stored to rds files to exchange data with R scripts.
+    /// </summary>
     public sealed class DataFrame : IReadOnlyDictionary<string, DataFrameColumn>
     {
         private IRObject _object;
@@ -88,10 +93,19 @@ namespace BinaryMesh.Data.R
             }
         }
 
+        /// <summary>
+        /// Gets the number of columns in the data frame.
+        /// </summary>
         public int Count => _columns.Length;
 
+        /// <summary>
+        /// Gets the number of rows in the data frame.
+        /// </summary>
         public long RowCount { get; }
 
+        /// <summary>
+        /// Gets a enumeration of all column names in the data frame.
+        /// </summary>
         public IEnumerable<string> Keys
         {
             get
@@ -103,6 +117,9 @@ namespace BinaryMesh.Data.R
             }
         }
 
+        /// <summary>
+        /// Gets a enumeration of all columns in the data frame.
+        /// </summary>
         public IEnumerable<DataFrameColumn> Values
         {
             get
@@ -114,11 +131,16 @@ namespace BinaryMesh.Data.R
             }
         }
 
-        public DataFrameColumn this[string key]
+        /// <summary>
+        /// Gets the column for a specific name.
+        /// </summary>
+        /// <param name="columnName">The name of the column.</param>
+        /// <returns>The column with the specified name.</returns>
+        public DataFrameColumn this[string columnName]
         {
             get
             {
-                if (TryGetValue(key, out DataFrameColumn item))
+                if (TryGetValue(columnName, out DataFrameColumn item))
                 {
                     return item;
                 }
@@ -127,32 +149,50 @@ namespace BinaryMesh.Data.R
             }
         }
 
+        /// <summary>
+        /// Reads a data frame from a serialized data source. This can either be a file created with
+        /// the readRDS or the serialize function.
+        /// </summary>
+        /// <param name="stream">The stream from which to read the serialized data.</param>
+        /// <returns>The unserialized data frame.</returns>
         public static DataFrame ReadFromStream(Stream stream)
         {
             IRObject obj = Serializer.Unserialize(stream);
             return new DataFrame(obj);
         }
 
-        public bool ContainsKey(string key)
+        /// <summary>
+        /// Checks whether the data frame contains a column with the specified name.
+        /// </summary>
+        /// <param name="columnName">The name of the column.</param>
+        /// <returns>A value indicating whether the data frame contains a column with the specified name or not.</returns>
+        public bool ContainsKey(string columnName)
         {
-            return _columns.Any(kvp => kvp.Key == key);
+            return _columns.Any(kvp => kvp.Key == columnName);
         }
 
-        public bool TryGetValue(string key, out DataFrameColumn value)
+        /// <summary>
+        /// Tries to get the column with the specified name and returns a value indicating success.
+        /// </summary>
+        /// <param name="columnName">The name of the column.</param>
+        /// <param name="column">When the operation was succeeefull, contains the column.</param>
+        /// <returns>A value indicating whether the operation was successfull.</returns>
+        public bool TryGetValue(string columnName, out DataFrameColumn column)
         {
             for (int i = 0; i < _columns.Length; i++)
             {
-                if (_columns[i].Key == key)
+                if (_columns[i].Key == columnName)
                 {
-                    value = _columns[i].Value;
+                    column = _columns[i].Value;
                     return true;
                 }
             }
 
-            value = null;
+            column = null;
             return false;
         }
 
+        /// <inheritdoc/>
         public IEnumerator<KeyValuePair<string, DataFrameColumn>> GetEnumerator()
         {
             for (int i = 0; i < _columns.Length; i++)
@@ -161,6 +201,7 @@ namespace BinaryMesh.Data.R
             }
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
