@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="InputReader.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.IO;
 
 namespace BinaryMesh.Data.R.Internal

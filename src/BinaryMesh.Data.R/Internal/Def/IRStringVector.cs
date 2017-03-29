@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="IRStringVector.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 
 namespace BinaryMesh.Data.R.Internal

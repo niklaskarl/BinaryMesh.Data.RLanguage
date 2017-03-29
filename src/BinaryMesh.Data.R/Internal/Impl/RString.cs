@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="RString.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.Text;
 
 namespace BinaryMesh.Data.R.Internal
