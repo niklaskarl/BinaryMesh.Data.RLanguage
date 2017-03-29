@@ -5,8 +5,6 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using BinaryMesh.Data.R.Graph;
 
 namespace BinaryMesh.Data.R
