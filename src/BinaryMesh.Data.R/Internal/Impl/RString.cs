@@ -18,22 +18,22 @@ namespace BinaryMesh.Data.R.Internal
             switch (encoding)
             {
                 case CharEncoding.Native:
-                    enc = Encoding.GetEncoding(0);
+                    enc = Encoding.GetEncoding("us-ascii");
                     break;
                 case CharEncoding.Utf8:
-                    enc = Encoding.UTF8;
+                    enc = Encoding.GetEncoding("utf-8");
                     break;
                 case CharEncoding.Latin1:
-                    enc = Encoding.GetEncoding(1252);
+                    enc = Encoding.GetEncoding("iso-8859-1");
                     break;
                 case CharEncoding.Bytes:
-                    enc = Encoding.UTF8;
+                    enc = Encoding.GetEncoding("utf-8");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            _text = enc.GetString(buffer);
+            _text = enc.GetString(buffer, 0, buffer.Length);
         }
 
         public static IRString NotAvailable { get; } = new RString(null);

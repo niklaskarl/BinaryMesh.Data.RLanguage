@@ -48,7 +48,7 @@ namespace BinaryMesh.Data.R.Internal
 
         private static IRObject UnserializeDecompressed(Stream stream)
         {
-            using (BinaryReader binaryReader = new BinaryReader(stream, Encoding.ASCII, true))
+            using (BinaryReader binaryReader = new BinaryReader(stream, Encoding.GetEncoding("us-ascii"), true))
             {
                 InputReader reader = InFormat(binaryReader);
 
