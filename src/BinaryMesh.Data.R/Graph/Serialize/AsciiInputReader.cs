@@ -9,7 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     internal sealed class AsciiInputReader : InputReader
     {

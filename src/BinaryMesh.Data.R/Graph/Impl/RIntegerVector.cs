@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="RRealVector.cs" company="Binary Mesh">
+// <copyright file="RIntegerVector.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,21 +8,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
-    internal sealed class RRealVector : RObject, IRRealVector, IRVector
+    internal sealed class RIntegerVector : RObject, IRIntegerVector, IRVector
     {
-        private double[] _values;
+        private int[] _values;
 
-        public RRealVector(long length)
-            : base(RObjectType.Real)
+        public RIntegerVector(long length)
+            : base(RNodeType.Integer)
         {
-            _values = new double[length];
+            _values = new int[length];
         }
 
         public long Count => _values.Length;
 
-        public double this[long index]
+        public int this[long index]
         {
             get => _values[index];
             set => _values[index] = value;
@@ -31,10 +31,10 @@ namespace BinaryMesh.Data.R.Internal
         object IRVector.this[long index]
         {
             get => _values[index];
-            set => _values[index] = (double)value;
+            set => _values[index] = (int)value;
         }
 
-        public IEnumerator<double> GetEnumerator()
+        public IEnumerator<int> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {

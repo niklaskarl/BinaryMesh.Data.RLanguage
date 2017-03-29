@@ -7,7 +7,7 @@
 using System;
 using System.IO;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     internal enum InputReaderType
     {

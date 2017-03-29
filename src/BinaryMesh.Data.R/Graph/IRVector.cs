@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IRStringVector.cs" company="Binary Mesh">
+// <copyright file="IRVector.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
-    /// Represents a vector of <see cref="IRString"/> items in the R object graph.
+    /// The base interface for all vectors in the R object graph.
     /// </summary>
-    public interface IRStringVector : IRObject, IEnumerable<IRString>
+    public interface IRVector : IRNode, IEnumerable
     {
         /// <summary>
         /// Gets the number of elements in the vector.
@@ -24,6 +24,6 @@ namespace BinaryMesh.Data.R.Internal
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        IRString this[long index] { get; set; }
+        object this[long index] { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IRIntegerVector.cs" company="Binary Mesh">
+// <copyright file="IRGenericVector.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,12 +7,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
-    /// Represents a vector of <see cref="int"/> items in the R object graph.
+    /// Represents a vector of <see cref="IRNode"/> items in the R object graph.
     /// </summary>
-    public interface IRIntegerVector : IRObject, IEnumerable<int>
+    public interface IRGenericVector : IRNode, IEnumerable<IRNode>
     {
         /// <summary>
         /// Gets the number of elements in the vector.
@@ -24,6 +24,6 @@ namespace BinaryMesh.Data.R.Internal
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        int this[long index] { get; set; }
+        IRNode this[long index] { get; set; }
     }
 }

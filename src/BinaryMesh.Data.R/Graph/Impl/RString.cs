@@ -7,7 +7,7 @@
 using System;
 using System.Text;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     internal sealed class RString : IRString
     {
@@ -52,19 +52,19 @@ namespace BinaryMesh.Data.R.Internal
 
         public static IRString NotAvailable { get; } = new RString(null);
 
-        public RObjectType ObjectType => RObjectType.Char;
+        public RNodeType ObjectType => RNodeType.Char;
 
         public int Levels { get; set; }
 
         public bool IsObject { get; set; }
 
-        public IRObject Attribute { get; set; }
+        public IRNode Attribute { get; set; }
 
-        public IRObject Tag { get; set; }
+        public IRNode Tag { get; set; }
 
-        public IRObject CAR { get; set; }
+        public IRNode CAR { get; set; }
 
-        public IRObject CAD { get; set; }
+        public IRNode CAD { get; set; }
 
         public string Text => _text;
     }

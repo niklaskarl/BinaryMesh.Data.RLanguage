@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="RStringVector.cs" company="Binary Mesh">
+// <copyright file="RGenericVector.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,21 +8,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
-    internal sealed class RStringVector : RObject, IRStringVector, IRVector
+    internal sealed class RGenericVector : RObject, IRGenericVector, IRVector
     {
-        private IRString[] _items;
+        private IRNode[] _items;
 
-        public RStringVector(long length)
-            : base(RObjectType.String)
+        public RGenericVector(long length)
+            : base(RNodeType.Vector)
         {
-            _items = new IRString[length];
+            _items = new IRNode[length];
         }
 
         public long Count => _items.Length;
 
-        public IRString this[long index]
+        public IRNode this[long index]
         {
             get => _items[index];
             set => _items[index] = value;
@@ -31,10 +31,10 @@ namespace BinaryMesh.Data.R.Internal
         object IRVector.this[long index]
         {
             get => _items[index];
-            set => _items[index] = (IRString)value;
+            set => _items[index] = (IRNode)value;
         }
 
-        IEnumerator<IRString> IEnumerable<IRString>.GetEnumerator()
+        IEnumerator<IRNode> IEnumerable<IRNode>.GetEnumerator()
         {
             for (long i = 0; i < Count; i++)
             {
@@ -44,7 +44,7 @@ namespace BinaryMesh.Data.R.Internal
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (this as IEnumerable<IRString>).GetEnumerator();
+            return (this as IEnumerable<IRNode>).GetEnumerator();
         }
     }
 }

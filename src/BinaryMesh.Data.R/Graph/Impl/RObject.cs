@@ -6,43 +6,43 @@
 
 using System;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
-    internal class RObject : IRObject
+    internal class RObject : IRNode
     {
-        public RObject(RObjectType type)
+        public RObject(RNodeType type)
         {
             ObjectType = type;
         }
 
-        public static IRObject EmptyEnvironment { get; } = new RStaticObject(RObjectType.Environment);
+        public static IRNode EmptyEnvironment { get; } = new RStaticObject(RNodeType.Environment);
 
-        public static IRObject BaseEnvironment { get; } = new RStaticObject(RObjectType.Environment);
+        public static IRNode BaseEnvironment { get; } = new RStaticObject(RNodeType.Environment);
 
-        public static IRObject GlobalEnvironment { get; } = new RStaticObject(RObjectType.Environment);
+        public static IRNode GlobalEnvironment { get; } = new RStaticObject(RNodeType.Environment);
 
-        public static IRObject UnboundValue { get; } = new RStaticObject(RObjectType.Special);
+        public static IRNode UnboundValue { get; } = new RStaticObject(RNodeType.Special);
 
-        public static IRObject MissingArg { get; } = new RStaticObject(RObjectType.Special);
+        public static IRNode MissingArg { get; } = new RStaticObject(RNodeType.Special);
 
-        public static IRObject BaseNamespace { get; } = new RStaticObject(RObjectType.Special);
+        public static IRNode BaseNamespace { get; } = new RStaticObject(RNodeType.Special);
 
-        public RObjectType ObjectType { get; }
+        public RNodeType ObjectType { get; }
 
         public int Levels { get; set; }
 
         public bool IsObject { get; set; }
 
-        public IRObject Attribute { get; set; }
+        public IRNode Attribute { get; set; }
 
-        private sealed class RStaticObject : IRObject
+        private sealed class RStaticObject : IRNode
         {
-            public RStaticObject(RObjectType type)
+            public RStaticObject(RNodeType type)
             {
                 ObjectType = type;
             }
 
-            public RObjectType ObjectType { get; }
+            public RNodeType ObjectType { get; }
 
             public int Levels
             {
@@ -56,25 +56,25 @@ namespace BinaryMesh.Data.R.Internal
                 set => throw new NotSupportedException();
             }
 
-            public IRObject Attribute
+            public IRNode Attribute
             {
                 get => null;
                 set => throw new NotSupportedException();
             }
 
-            public IRObject Tag
+            public IRNode Tag
             {
                 get => null;
                 set => throw new NotSupportedException();
             }
 
-            public IRObject CAR
+            public IRNode CAR
             {
                 get => null;
                 set => throw new NotSupportedException();
             }
 
-            public IRObject CAD
+            public IRNode CAD
             {
                 get => null;
                 set => throw new NotSupportedException();

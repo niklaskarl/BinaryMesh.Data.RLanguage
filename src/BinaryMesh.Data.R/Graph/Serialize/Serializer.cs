@@ -9,7 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
     /// Provides methods for serializing and unserializing R objects.
@@ -71,7 +71,7 @@ namespace BinaryMesh.Data.R.Internal
         /// </summary>
         /// <param name="stream">The stream whose content to unserialize.</param>
         /// <returns>The unserialized R object.</returns>
-        public static IRObject Unserialize(Stream stream)
+        public static IRNode Unserialize(Stream stream)
         {
             if (stream == null)
             {
@@ -110,7 +110,7 @@ namespace BinaryMesh.Data.R.Internal
             }
         }
 
-        private static IRObject UnserializeDecompressed(Stream stream)
+        private static IRNode UnserializeDecompressed(Stream stream)
         {
             using (BinaryReader binaryReader = new BinaryReader(stream, Encoding.GetEncoding("us-ascii"), true))
             {
@@ -194,7 +194,7 @@ namespace BinaryMesh.Data.R.Internal
             s = packed;
         }
 
-        private static IRObject ReadItem(InputReader reader)
+        private static IRNode ReadItem(InputReader reader)
         {
             int flags = reader.ReadInt32();
 
@@ -270,7 +270,7 @@ namespace BinaryMesh.Data.R.Internal
                 case SEXPTYPE.CLOSXP:
                 case SEXPTYPE.PROMSXP:
                 case SEXPTYPE.DOTSXP:
-                    IRList s = new RList((RObjectType)type)
+                    IRList s = new RList((RNodeType)type)
                     {
                         Levels = levels,
                         IsObject = isObject,
@@ -285,7 +285,7 @@ namespace BinaryMesh.Data.R.Internal
 
                     return s;
                 default:
-                    IRObject result;
+                    IRNode result;
                     switch (type)
                     {
                         case SEXPTYPE.CHARSXP:
@@ -338,7 +338,7 @@ namespace BinaryMesh.Data.R.Internal
                         case SEXPTYPE.STRSXP:
                             {
                                 long length = ReadLength(reader);
-                                IRVector vector = RVector.AllocateVector((RObjectType)type, length);
+                                IRVector vector = RVector.AllocateVector((RNodeType)type, length);
                                 for (long i = 0; i < length; i++)
                                 {
                                     vector[i] = ReadItem(reader);
@@ -353,7 +353,7 @@ namespace BinaryMesh.Data.R.Internal
                         case SEXPTYPE.EXPRSXP:
                             {
                                 long length = ReadLength(reader);
-                                IRVector vector = RVector.AllocateVector((RObjectType)type, length);
+                                IRVector vector = RVector.AllocateVector((RNodeType)type, length);
                                 for (long i = 0; i < length; i++)
                                 {
                                     vector[i] = ReadItem(reader);
@@ -367,14 +367,14 @@ namespace BinaryMesh.Data.R.Internal
                             throw new NotSupportedException();
                     }
 
-                    if (result.ObjectType != RObjectType.Char)
+                    if (result.ObjectType != RNodeType.Char)
                     {
                         result.Levels = levels;
                     }
 
                     result.IsObject = isObject;
 
-                    if (result.ObjectType == RObjectType.Char)
+                    if (result.ObjectType == RNodeType.Char)
                     {
                         if (hasAttribute)
                         {

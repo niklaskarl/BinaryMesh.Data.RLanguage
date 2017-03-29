@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BinaryMesh.Data.R.Internal;
+using BinaryMesh.Data.R.Graph;
 
 namespace BinaryMesh.Data.R
 {
@@ -20,11 +20,11 @@ namespace BinaryMesh.Data.R
     /// </summary>
     public sealed class DataFrame : IReadOnlyDictionary<string, DataFrameColumn>
     {
-        private IRObject _object;
+        private IRNode _object;
 
         private KeyValuePair<string, DataFrameColumn>[] _columns;
 
-        internal DataFrame(IRObject obj)
+        internal DataFrame(IRNode obj)
         {
             _object = obj;
 
@@ -157,7 +157,7 @@ namespace BinaryMesh.Data.R
         /// <returns>The unserialized data frame.</returns>
         public static DataFrame ReadFromStream(Stream stream)
         {
-            IRObject obj = Serializer.Unserialize(stream);
+            IRNode obj = Serializer.Unserialize(stream);
             return new DataFrame(obj);
         }
 
@@ -207,7 +207,7 @@ namespace BinaryMesh.Data.R
             return GetEnumerator();
         }
 
-        private bool ProcessClassAttribute(IRObject item)
+        private bool ProcessClassAttribute(IRNode item)
         {
             if (item is IRStringVector classes)
             {
@@ -223,7 +223,7 @@ namespace BinaryMesh.Data.R
             return false;
         }
 
-        private void ProcessNamesAttribute(IRObject item)
+        private void ProcessNamesAttribute(IRNode item)
         {
             if (item is IRStringVector names)
             {
@@ -235,7 +235,7 @@ namespace BinaryMesh.Data.R
             }
         }
 
-        private void ProcessRowNamesAttribute(IRObject item)
+        private void ProcessRowNamesAttribute(IRNode item)
         {
         }
     }

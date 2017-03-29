@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IRVector.cs" company="Binary Mesh">
+// <copyright file="IRIntegerVector.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
-    /// The base interface for all vectors in the R object graph.
+    /// Represents a vector of <see cref="int"/> items in the R object graph.
     /// </summary>
-    public interface IRVector : IRObject, IEnumerable
+    public interface IRIntegerVector : IRNode, IEnumerable<int>
     {
         /// <summary>
         /// Gets the number of elements in the vector.
@@ -24,6 +24,6 @@ namespace BinaryMesh.Data.R.Internal
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        object this[long index] { get; set; }
+        int this[long index] { get; set; }
     }
 }

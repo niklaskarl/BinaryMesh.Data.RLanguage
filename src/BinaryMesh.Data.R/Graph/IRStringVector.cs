@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IRRealVector.cs" company="Binary Mesh">
+// <copyright file="IRStringVector.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,12 +7,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
-    /// Represents a vector of <see cref="double"/> items in the R object graph.
+    /// Represents a vector of <see cref="IRString"/> items in the R object graph.
     /// </summary>
-    public interface IRRealVector : IRObject, IEnumerable<double>
+    public interface IRStringVector : IRNode, IEnumerable<IRString>
     {
         /// <summary>
         /// Gets the number of elements in the vector.
@@ -24,6 +24,6 @@ namespace BinaryMesh.Data.R.Internal
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        double this[long index] { get; set; }
+        IRString this[long index] { get; set; }
     }
 }

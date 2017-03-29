@@ -6,18 +6,18 @@
 
 using System;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     internal sealed class RList : RObject, IRList
     {
-        public RList(RObjectType type)
+        public RList(RNodeType type)
             : base(type)
         {
         }
 
-        public IRObject Tag { get; set; }
+        public IRNode Tag { get; set; }
 
-        public IRObject Head { get; set; }
+        public IRNode Head { get; set; }
 
         public IRList Tail { get; set; }
     }

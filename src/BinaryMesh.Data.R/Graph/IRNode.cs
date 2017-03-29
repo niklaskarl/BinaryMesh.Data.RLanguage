@@ -1,22 +1,22 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IRObject.cs" company="Binary Mesh">
+// <copyright file="IRNode.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
-    /// The base interface for all objects in the R object graph.
+    /// The base interface for all nodes in the R object graph.
     /// </summary>
-    public interface IRObject
+    public interface IRNode
     {
         /// <summary>
         /// Gets the type of the node.
         /// </summary>
-        RObjectType ObjectType { get; }
+        RNodeType ObjectType { get; }
 
         /// <summary>
         /// Gets or sets the level of the node.
@@ -31,6 +31,6 @@ namespace BinaryMesh.Data.R.Internal
         /// <summary>
         /// Gets or sets the attribute node for the node.
         /// </summary>
-        IRObject Attribute { get; set; }
+        IRNode Attribute { get; set; }
     }
 }

@@ -7,7 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BinaryMesh.Data.R.Internal;
+using BinaryMesh.Data.R.Graph;
 
 namespace BinaryMesh.Data.R
 {
@@ -101,7 +101,7 @@ namespace BinaryMesh.Data.R
 
             public long Count => _vector.Count;
 
-            public RObjectType ObjectType => RObjectType.Special;
+            public RNodeType ObjectType => RNodeType.Special;
 
             public int Levels
             {
@@ -115,7 +115,7 @@ namespace BinaryMesh.Data.R
                 set => _vector.IsObject = value;
             }
 
-            public IRObject Attribute
+            public IRNode Attribute
             {
                 get => _vector.Attribute;
                 set => _vector.Attribute = value;

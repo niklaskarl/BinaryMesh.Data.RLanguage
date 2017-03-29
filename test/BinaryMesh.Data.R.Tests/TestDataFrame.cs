@@ -23,6 +23,7 @@ namespace BinaryMesh.Data.R.Tests
                 Assert.IsTrue(dataFrame.ContainsKey("val"));
             }
         }
+
         [TestMethod]
         public void TestSimpleSerializeFile()
         {

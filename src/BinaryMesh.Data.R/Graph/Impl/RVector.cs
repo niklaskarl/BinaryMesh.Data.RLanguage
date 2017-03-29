@@ -6,19 +6,19 @@
 
 using System;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     internal static class RVector
     {
-        public static IRVector AllocateVector(RObjectType type, long length)
+        public static IRVector AllocateVector(RNodeType type, long length)
         {
             switch (type)
             {
-                case RObjectType.Real:
+                case RNodeType.Real:
                     return new RRealVector(length);
-                case RObjectType.String:
+                case RNodeType.String:
                     return new RStringVector(length);
-                case RObjectType.Vector:
+                case RNodeType.Vector:
                     return new RGenericVector(length);
                 default:
                     throw new NotSupportedException();

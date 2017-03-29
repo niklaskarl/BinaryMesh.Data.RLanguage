@@ -6,12 +6,12 @@
 
 using System;
 
-namespace BinaryMesh.Data.R.Internal
+namespace BinaryMesh.Data.R.Graph
 {
     /// <summary>
     /// Represents a string object in the R object graph.
     /// </summary>
-    public interface IRString : IRObject
+    public interface IRString : IRNode
     {
         /// <summary>
         /// Gets the actual text of the node.
