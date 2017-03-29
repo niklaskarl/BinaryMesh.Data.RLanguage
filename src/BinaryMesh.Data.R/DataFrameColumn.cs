@@ -90,9 +90,14 @@ namespace BinaryMesh.Data.R
             throw new InvalidOperationException();
         }
 
-        internal IRVector GetVectorNode()
+        internal IRNode GetVectorNode()
         {
-            throw new NotImplementedException();
+            if (_column is StringVectorWrapper stringVector)
+            {
+                return stringVector.BaseVector;
+            }
+
+            return _column;
         }
 
         private class StringVectorWrapper : IRVector
@@ -125,6 +130,8 @@ namespace BinaryMesh.Data.R
                 get => _vector.Attribute;
                 set => _vector.Attribute = value;
             }
+
+            public IRStringVector BaseVector => _vector;
 
             public string this[long index]
             {
