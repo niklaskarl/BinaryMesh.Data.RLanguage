@@ -33,7 +33,7 @@ namespace BinaryMesh.Data.R
             {
                 if (attribute.Tag is IRString tag)
                 {
-                    switch (tag.Text)
+                    switch (tag.String)
                     {
                         case "class":
                             isDataFrame = ProcessClassAttribute(attribute.Head);
@@ -213,7 +213,7 @@ namespace BinaryMesh.Data.R
             {
                 for (int i = 0; i < classes.Count; i++)
                 {
-                    if (classes[i].Text == "data.frame")
+                    if (classes[i].String == "data.frame")
                     {
                         return true;
                     }
@@ -230,7 +230,7 @@ namespace BinaryMesh.Data.R
                 _columns = new KeyValuePair<string, DataFrameColumn>[names.Count];
                 for (int i = 0; i < names.Count; i++)
                 {
-                    _columns[i] = new KeyValuePair<string, DataFrameColumn>(names[i].Text, null);
+                    _columns[i] = new KeyValuePair<string, DataFrameColumn>(names[i].String, null);
                 }
             }
         }

@@ -123,7 +123,7 @@ namespace BinaryMesh.Data.R
 
             public string this[long index]
             {
-                get => _vector[index].Text;
+                get => _vector[index].String;
                 set => _vector[index] = new RString(value);
             }
 

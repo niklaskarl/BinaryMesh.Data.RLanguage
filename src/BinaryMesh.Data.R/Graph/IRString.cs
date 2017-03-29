@@ -14,8 +14,8 @@ namespace BinaryMesh.Data.R.Graph
     public interface IRString : IRNode
     {
         /// <summary>
-        /// Gets the actual text of the node.
+        /// Gets the actual string of the node.
         /// </summary>
-        string Text { get; }
+        string String { get; }
     }
 }

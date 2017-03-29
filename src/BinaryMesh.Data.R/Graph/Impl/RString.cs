@@ -66,6 +66,6 @@ namespace BinaryMesh.Data.R.Graph
 
         public IRNode CAD { get; set; }
 
-        public string Text => _text;
+        public string String => _text;
     }
 }
