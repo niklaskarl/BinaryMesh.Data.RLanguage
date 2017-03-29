@@ -23,5 +23,20 @@ namespace BinaryMesh.Data.R.Tests
                 Assert.IsTrue(dataFrame.ContainsKey("val"));
             }
         }
+        [TestMethod]
+        public void TestSimpleSerializeFile()
+        {
+            Assembly assembly = typeof(TestDataFrame).GetTypeInfo().Assembly;
+            using (Stream stream = assembly.GetManifestResourceStream("BinaryMesh.Data.R.Tests.SampleData.simple_serialize.rds"))
+            {
+                DataFrame dataFrame = DataFrame.ReadFromStream(stream);
+
+                Assert.AreEqual(dataFrame.Count, 2);
+                Assert.AreEqual(dataFrame.RowCount, 10);
+
+                Assert.IsTrue(dataFrame.ContainsKey("time"));
+                Assert.IsTrue(dataFrame.ContainsKey("val"));
+            }
+        }
     }
 }

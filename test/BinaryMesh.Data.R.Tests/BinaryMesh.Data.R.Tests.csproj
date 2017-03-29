@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <None Remove="SampleData\simple.rds" />
+    <None Remove="SampleData\simple_serialize.rds" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="SampleData\simple.rds" />
+    <EmbeddedResource Include="SampleData\simple_serialize.rds" />
   </ItemGroup>
 
   <ItemGroup>

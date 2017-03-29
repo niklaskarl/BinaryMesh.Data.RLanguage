@@ -123,7 +123,7 @@ namespace BinaryMesh.Data.R
 
         public static DataFrame ReadFromStream(Stream stream)
         {
-            IRObject obj = Serializer.ReadRds(stream);
+            IRObject obj = Serializer.Unserialize(stream);
             return new DataFrame(obj);
         }
 

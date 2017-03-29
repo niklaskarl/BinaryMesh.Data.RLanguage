@@ -7,15 +7,46 @@ namespace BinaryMesh.Data.R.Internal
 {
     public static class Serializer
     {
-        public static IRObject ReadRds(Stream stream)
+        public static IRObject Unserialize(Stream stream)
         {
-            using (stream = new GZipStream(stream, CompressionMode.Decompress, true))
+            if (stream == null)
             {
-                return Unserialize(stream);
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            /* If the stream can be seeked, check whether the stream is a gzip file first
+             * and revert the stream back to the original position. If the stream cannot be seeked,
+             * simply assume the stream is a gzip stream. */
+            bool isGzip = true;
+            if (stream.CanSeek)
+            {
+                long position = stream.Position;
+
+                byte[] magicNumber = new byte[3];
+                stream.Read(magicNumber, 0, 3);
+
+                if (magicNumber[0] != 0x1F || magicNumber[1] != 0x8B || magicNumber[2] != 0x08)
+                {
+                    isGzip = false;
+                }
+
+                stream.Seek(position, SeekOrigin.Begin);
+            }
+
+            if (isGzip)
+            {
+                using (stream = new GZipStream(stream, CompressionMode.Decompress, true))
+                {
+                    return UnserializeDecompressed(stream);
+                }
+            }
+            else
+            {
+                return UnserializeDecompressed(stream);
             }
         }
 
-        public static IRObject Unserialize(Stream stream)
+        private static IRObject UnserializeDecompressed(Stream stream)
         {
             using (BinaryReader binaryReader = new BinaryReader(stream, Encoding.ASCII, true))
             {
