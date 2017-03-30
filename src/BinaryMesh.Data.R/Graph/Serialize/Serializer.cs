@@ -117,6 +117,10 @@ namespace BinaryMesh.Data.R.Graph
                 {
                     isGzip = false;
                 }
+                else if (magicNumber[0] != 0x42 || magicNumber[1] != 0x58 || magicNumber[2] != 0x68)
+                {
+                    throw new NotSupportedException("Streams compressed with bzip2 are not supported.");
+                }
 
                 stream.Seek(position, SeekOrigin.Begin);
             }
