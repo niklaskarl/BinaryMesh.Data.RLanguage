@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryMesh.Data.RLanguage", "src\BinaryMesh.Data.RLanguage\BinaryMesh.Data.RLanguage.csproj", "{479961FD-FF49-4D51-9EB0-55CAAEF01954}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryMesh.Data.RLanguage.Tests", "test\BinaryMesh.Data.RLanguage.Tests\BinaryMesh.Data.RLanguage.Tests.csproj", "{DDF1D77A-86CF-42AE-839E-1E872323FD87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70645F33-8BDD-46D4-9A94-D67602FAC345}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9F50E8A7-345B-4397-8BA5-FCAC6ACA0A20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4C42A7F7-B577-4D5F-B424-946489DFD9DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{479961FD-FF49-4D51-9EB0-55CAAEF01954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479961FD-FF49-4D51-9EB0-55CAAEF01954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479961FD-FF49-4D51-9EB0-55CAAEF01954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479961FD-FF49-4D51-9EB0-55CAAEF01954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF1D77A-86CF-42AE-839E-1E872323FD87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF1D77A-86CF-42AE-839E-1E872323FD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF1D77A-86CF-42AE-839E-1E872323FD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF1D77A-86CF-42AE-839E-1E872323FD87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{479961FD-FF49-4D51-9EB0-55CAAEF01954} = {9F50E8A7-345B-4397-8BA5-FCAC6ACA0A20}
+		{DDF1D77A-86CF-42AE-839E-1E872323FD87} = {4C42A7F7-B577-4D5F-B424-946489DFD9DD}
+	EndGlobalSection
+EndGlobal

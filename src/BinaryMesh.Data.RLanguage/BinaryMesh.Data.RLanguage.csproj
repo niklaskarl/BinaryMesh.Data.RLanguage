@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>BinaryMesh.Data.RLanguage</AssemblyName>
+    <Version>1.0.0</Version>
+    <TargetFrameworks>net45;netstandard1.1</TargetFrameworks>
+    <NetStandardImplicitPackageVersion Condition="'$(TargetFramework)' == 'netstandard1.1'">1.6.1</NetStandardImplicitPackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>BinaryMesh.Data.RLanguage</Title>
+    <Authors>Niklas Karl</Authors>
+    <Description>Reads and writes serialized R data objects.</Description>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <Copyright>Copyright © Binary Mesh 2016</Copyright>
+    <PackageTags>dataframe;r;rds</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>bin\Release\net45\BinaryMesh.Data.RLanguage.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.1|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.1\BinaryMesh.Data.RLanguage.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="StyleCop.Analyzers" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+</Project>
