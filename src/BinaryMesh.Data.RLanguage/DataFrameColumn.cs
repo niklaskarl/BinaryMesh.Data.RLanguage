@@ -22,6 +22,30 @@ namespace BinaryMesh.Data.RLanguage
         }
 
         /// <summary>
+        /// Gets the data type of the elements in the column.
+        /// </summary>
+        public DataFrameColumnType DataType
+        {
+            get
+            {
+                if (_column is IRIntegerVector)
+                {
+                    return DataFrameColumnType.Integer;
+                }
+                else if (_column is IRRealVector)
+                {
+                    return DataFrameColumnType.Real;
+                }
+                else if (_column is IRStringVector)
+                {
+                    return DataFrameColumnType.String;
+                }
+
+                throw new Exception();
+            }
+        }
+
+        /// <summary>
         /// Gets the number of rows in the column.
         /// </summary>
         public long Count => _column.Count;
