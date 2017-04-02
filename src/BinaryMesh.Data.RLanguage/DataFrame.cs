@@ -5,10 +5,7 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using BinaryMesh.Data.RLanguage.Graph;
 
 namespace BinaryMesh.Data.RLanguage
@@ -156,7 +153,7 @@ namespace BinaryMesh.Data.RLanguage
 
             for (int i = 0; i < Columns.Count; i++)
             {
-                node[i] = Columns[i].GetVectorNode();
+                node[i] = Columns[i].Vector.Node;
             }
 
             Serializer.Serialize(node, stream, compress);

@@ -16,12 +16,12 @@ namespace BinaryMesh.Data.RLanguage
     {
         private readonly string _name;
 
-        private readonly IRVector _column;
+        private readonly Vector _vector;
 
-        internal DataFrameColumn(string name, IRVector column)
+        internal DataFrameColumn(string name, IRVector vector)
         {
             _name = name;
-            _column = column;
+            _vector = new Vector(vector);
         }
 
         /// <summary>
@@ -30,95 +30,8 @@ namespace BinaryMesh.Data.RLanguage
         public string Name => _name;
 
         /// <summary>
-        /// Gets the data type of the elements in the column.
+        /// Gets the vector containing the data of the column.
         /// </summary>
-        public DataFrameColumnType DataType
-        {
-            get
-            {
-                if (_column is IRIntegerVector)
-                {
-                    return DataFrameColumnType.Integer;
-                }
-                else if (_column is IRRealVector)
-                {
-                    return DataFrameColumnType.Real;
-                }
-                else if (_column is IRStringVector)
-                {
-                    return DataFrameColumnType.String;
-                }
-
-                throw new Exception();
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of rows in the column.
-        /// </summary>
-        public long Count => _column.Count;
-
-        /// <summary>
-        /// Gets element at the specified index.
-        /// </summary>
-        /// <param name="index">The index of the element</param>
-        /// <returns>The element at the specified index.</returns>
-        public object this[long index]
-        {
-            get
-            {
-                return _column[index];
-            }
-        }
-
-        /// <summary>
-        /// Gets element at the specified index as an integer.
-        /// </summary>
-        /// <param name="index">The index of the element</param>
-        /// <returns>The element at the specified index as an integer.</returns>
-        public int GetInteger(long index)
-        {
-            if (_column is IRIntegerVector column)
-            {
-                return column[index];
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        /// <summary>
-        /// Gets element at the specified index as a double.
-        /// </summary>
-        /// <param name="index">The index of the element</param>
-        /// <returns>The element at the specified index as a double.</returns>
-        public double GetReal(long index)
-        {
-            if (_column is IRRealVector column)
-            {
-                return column[index];
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        /// <summary>
-        /// Gets element at the specified index as a string.
-        /// </summary>
-        /// <param name="index">The index of the element</param>
-        /// <returns>The element at the specified index as a string.</returns>
-        public string GetString(long index)
-        {
-            if (_column is IRStringVector column)
-            {
-                return column[index];
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        internal IRNode GetVectorNode()
-        {
-            return _column;
-        }
+        public Vector Vector => _vector;
     }
 }

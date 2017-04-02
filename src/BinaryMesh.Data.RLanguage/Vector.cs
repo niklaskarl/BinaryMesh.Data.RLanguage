@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="Vector.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.IO;
 using BinaryMesh.Data.RLanguage.Graph;
 
@@ -49,6 +55,8 @@ namespace BinaryMesh.Data.RLanguage
         /// Gets the number of elements in the vector.
         /// </summary>
         public long Count => _vector.Count;
+
+        internal IRVector Node => _vector;
 
         /// <summary>
         /// Gets element at the specified index.

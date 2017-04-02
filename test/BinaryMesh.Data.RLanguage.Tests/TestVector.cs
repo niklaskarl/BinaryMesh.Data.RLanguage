@@ -18,6 +18,7 @@ namespace BinaryMesh.Data.RLanguage.Tests
                 Vector vector = Vector.ReadFromStream(stream);
 
                 Assert.AreEqual(6, vector.Count);
+                Assert.AreEqual(VectorType.Real, vector.Type);
             }
         }
     }
