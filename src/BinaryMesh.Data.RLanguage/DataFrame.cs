@@ -18,13 +18,12 @@ namespace BinaryMesh.Data.RLanguage
     /// It is compatible with R data.frame objects and can be read from and
     /// stored to rds files to exchange data with R scripts.
     /// </summary>
-    public sealed class DataFrame : IReadOnlyDictionary<string, DataFrameColumn>
+    public sealed class DataFrame
     {
-        private KeyValuePair<string, DataFrameColumn>[] _columns;
-
         internal DataFrame(IRNode node)
         {
             bool isDataFrame = false;
+            string[] names = null;
             for (IRList attribute = node.Attribute as IRList; attribute != null; attribute = attribute.Tail)
             {
                 if (attribute.Tag is IRString tag)
@@ -35,7 +34,7 @@ namespace BinaryMesh.Data.RLanguage
                             isDataFrame = ProcessClassAttribute(attribute.Head);
                             break;
                         case "names":
-                            ProcessNamesAttribute(attribute.Head);
+                            names = ProcessNamesAttribute(attribute.Head);
                             break;
                         case "row.names":
                             ProcessRowNamesAttribute(attribute.Head);
@@ -44,19 +43,20 @@ namespace BinaryMesh.Data.RLanguage
                 }
             }
 
-            if (!isDataFrame || _columns == null)
+            if (!isDataFrame || names == null)
             {
                 throw new InvalidDataException("The object is not a dataframe.");
             }
 
             if (node is IRGenericVector columns)
             {
-                if (columns.Count != _columns.Length)
+                if (columns.Count != names.Length)
                 {
                     throw new InvalidDataException("The number of column names doesn't match the number of columns.");
                 }
 
                 int rowCount = -1;
+                DataFrameColumn[] c = new DataFrameColumn[columns.Count];
                 for (int i = 0; i < columns.Count; i++)
                 {
                     if (columns[i] is IRVector item)
@@ -72,15 +72,17 @@ namespace BinaryMesh.Data.RLanguage
                                 throw new InvalidDataException("The columns have different numbers of rows.");
                             }
                         }
-
-                        _columns[i] = new KeyValuePair<string, DataFrameColumn>(_columns[i].Key, new DataFrameColumn(item));
+                        
+                        c[i] = new DataFrameColumn(names[i], (IRVector)columns[i]);
                     }
                     else
                     {
                         throw new InvalidDataException();
                     }
+
                 }
 
+                Columns = new DataFrameColumnCollection(c);
                 RowCount = rowCount;
             }
             else
@@ -90,61 +92,15 @@ namespace BinaryMesh.Data.RLanguage
         }
 
         /// <summary>
-        /// Gets the number of columns in the data frame.
+        /// Gets a collection of all <see cref="DataFrameColumn"/>s of the data frame.
         /// </summary>
-        public int Count => _columns.Length;
+        public DataFrameColumnCollection Columns { get; }
 
         /// <summary>
         /// Gets the number of rows in the data frame.
         /// </summary>
         public long RowCount { get; }
-
-        /// <summary>
-        /// Gets a enumeration of all column names in the data frame.
-        /// </summary>
-        public IEnumerable<string> Keys
-        {
-            get
-            {
-                for (int i = 0; i < _columns.Length; i++)
-                {
-                    yield return _columns[i].Key;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a enumeration of all columns in the data frame.
-        /// </summary>
-        public IEnumerable<DataFrameColumn> Values
-        {
-            get
-            {
-                for (int i = 0; i < _columns.Length; i++)
-                {
-                    yield return _columns[i].Value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the column for a specific name.
-        /// </summary>
-        /// <param name="columnName">The name of the column.</param>
-        /// <returns>The column with the specified name.</returns>
-        public DataFrameColumn this[string columnName]
-        {
-            get
-            {
-                if (TryGetValue(columnName, out DataFrameColumn item))
-                {
-                    return item;
-                }
-
-                throw new KeyNotFoundException();
-            }
-        }
-
+        
         /// <summary>
         /// Reads a data frame from a serialized data source. This can either be a file created with
         /// the readRDS or the serialize function.
@@ -176,7 +132,7 @@ namespace BinaryMesh.Data.RLanguage
         /// <param name="compress">A value indicating whether to compress the data with gzip.</param>
         public void WriteToStream(Stream stream, bool compress)
         {
-            IRGenericVector node = new RGenericVector(Count)
+            IRGenericVector node = new RGenericVector(Columns.Count)
             {
                 Attribute = new RList(RNodeType.List)
                 {
@@ -198,58 +154,12 @@ namespace BinaryMesh.Data.RLanguage
                 }
             };
 
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < Columns.Count; i++)
             {
-                node[i] = _columns[i].Value.GetVectorNode();
+                node[i] = Columns[i].GetVectorNode();
             }
 
             Serializer.Serialize(node, stream, compress);
-        }
-
-        /// <summary>
-        /// Checks whether the data frame contains a column with the specified name.
-        /// </summary>
-        /// <param name="columnName">The name of the column.</param>
-        /// <returns>A value indicating whether the data frame contains a column with the specified name or not.</returns>
-        public bool ContainsKey(string columnName)
-        {
-            return _columns.Any(kvp => kvp.Key == columnName);
-        }
-
-        /// <summary>
-        /// Tries to get the column with the specified name and returns a value indicating success.
-        /// </summary>
-        /// <param name="columnName">The name of the column.</param>
-        /// <param name="column">When the operation was succeeefull, contains the column.</param>
-        /// <returns>A value indicating whether the operation was successfull.</returns>
-        public bool TryGetValue(string columnName, out DataFrameColumn column)
-        {
-            for (int i = 0; i < _columns.Length; i++)
-            {
-                if (_columns[i].Key == columnName)
-                {
-                    column = _columns[i].Value;
-                    return true;
-                }
-            }
-
-            column = null;
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public IEnumerator<KeyValuePair<string, DataFrameColumn>> GetEnumerator()
-        {
-            for (int i = 0; i < _columns.Length; i++)
-            {
-                yield return _columns[i];
-            }
-        }
-
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         private bool ProcessClassAttribute(IRNode item)
@@ -268,16 +178,20 @@ namespace BinaryMesh.Data.RLanguage
             return false;
         }
 
-        private void ProcessNamesAttribute(IRNode item)
+        private string[] ProcessNamesAttribute(IRNode item)
         {
             if (item is IRStringVector names)
             {
-                _columns = new KeyValuePair<string, DataFrameColumn>[names.Count];
+                string[] result = new string[names.Count];
                 for (int i = 0; i < names.Count; i++)
                 {
-                    _columns[i] = new KeyValuePair<string, DataFrameColumn>(names[i], null);
+                    result[i] = names[i];
                 }
+
+                return result;
             }
+
+            throw new InvalidDataException();
         }
 
         private void ProcessRowNamesAttribute(IRNode item)
@@ -286,10 +200,10 @@ namespace BinaryMesh.Data.RLanguage
 
         private IRNode ConstructNamesAttribute()
         {
-            IRStringVector names = new RStringVector(Count);
-            for (int i = 0; i < Count; i++)
+            IRStringVector names = new RStringVector(Columns.Count);
+            for (int i = 0; i < Columns.Count; i++)
             {
-                names[i] = _columns[i].Key;
+                names[i] = Columns[i].Name;
             }
 
             return names;
@@ -298,7 +212,7 @@ namespace BinaryMesh.Data.RLanguage
         private IRNode ConstructRowNamesAttribute()
         {
             IRIntegerVector rowNames = new RIntegerVector(RowCount);
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < Columns.Count; i++)
             {
                 rowNames[i] = i;
             }

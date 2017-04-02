@@ -14,12 +14,20 @@ namespace BinaryMesh.Data.RLanguage
     /// </summary>
     public sealed class DataFrameColumn
     {
-        private IRVector _column;
+        private readonly string _name;
 
-        internal DataFrameColumn(IRVector column)
+        private readonly IRVector _column;
+
+        internal DataFrameColumn(string name, IRVector column)
         {
+            _name = name;
             _column = column;
         }
+
+        /// <summary>
+        /// Gets the name of the column.
+        /// </summary>
+        public string Name => _name;
 
         /// <summary>
         /// Gets the data type of the elements in the column.

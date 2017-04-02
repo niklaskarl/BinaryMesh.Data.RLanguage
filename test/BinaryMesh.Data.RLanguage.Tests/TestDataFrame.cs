@@ -16,11 +16,11 @@ namespace BinaryMesh.Data.RLanguage.Tests
             {
                 DataFrame dataFrame = DataFrame.ReadFromStream(stream);
 
-                Assert.AreEqual(dataFrame.Count, 2);
+                Assert.AreEqual(dataFrame.Columns.Count, 2);
                 Assert.AreEqual(dataFrame.RowCount, 10);
 
-                Assert.IsTrue(dataFrame.ContainsKey("time"));
-                Assert.IsTrue(dataFrame.ContainsKey("val"));
+                Assert.IsTrue(dataFrame.Columns.ContainsKey("time"));
+                Assert.IsTrue(dataFrame.Columns.ContainsKey("val"));
             }
         }
 
@@ -32,11 +32,11 @@ namespace BinaryMesh.Data.RLanguage.Tests
             {
                 DataFrame dataFrame = DataFrame.ReadFromStream(stream);
 
-                Assert.AreEqual(dataFrame.Count, 2);
+                Assert.AreEqual(dataFrame.Columns.Count, 2);
                 Assert.AreEqual(dataFrame.RowCount, 10);
 
-                Assert.IsTrue(dataFrame.ContainsKey("time"));
-                Assert.IsTrue(dataFrame.ContainsKey("val"));
+                Assert.IsTrue(dataFrame.Columns.ContainsKey("time"));
+                Assert.IsTrue(dataFrame.Columns.ContainsKey("val"));
             }
         }
     }
