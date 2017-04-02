@@ -84,30 +84,114 @@ namespace BinaryMesh.Data.RLanguage
         }
 
         /// <summary>
-        /// Gets element at the specified index as an integer.
+        /// Checks whether the element at the specified index is <c>null</c>.
         /// </summary>
-        /// <param name="index">The index of the element</param>
-        /// <returns>The element at the specified index as an integer.</returns>
-        public int GetInteger(long index)
+        /// <param name="index">The index of the element to check.</param>
+        /// <returns><c>true</c> if the element is <c>null</c>; <c>false</c> otherwise.</returns>
+        public bool IsNull(long index)
         {
-            if (_vector is IRIntegerVector vector)
+            if (_vector is IRRealVector realVector)
             {
-                return vector[index];
+                double value = realVector[index];
+                return double.IsNaN(value) && (BitConverter.DoubleToInt64Bits(value) & 0x0007FFFFFFFFFFFF) != 0;
+            }
+            else if (_vector is IRIntegerVector integerVector)
+            {
+                return integerVector[index] == int.MinValue;
+            }
+            else if (_vector is IRStringVector stringVector)
+            {
+                return stringVector[index] == null;
             }
 
             throw new InvalidOperationException();
         }
 
         /// <summary>
-        /// Gets element at the specified index as a real number.
+        /// Gets element at the specified index as an integer.
+        /// </summary>
+        /// <param name="index">The index of the element</param>
+        /// <returns>The element at the specified index as an integer.</returns>
+        public int GetInteger(long index)
+        {
+            if (TryGetInteger(index, out int value))
+            {
+                return value;
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Gets the element at the specified index as an integer.
+        /// </summary>
+        /// <param name="index">The index of the element to get.</param>
+        /// <param name="value">When this method returns, contains the value for the element, if it is not <c>null</c>.</param>
+        /// <returns><c>true</c> if the element is not <c>null</c>; <c>false</c> otherwise.</returns>
+        public bool TryGetInteger(long index, out int value)
+        {
+            if (_vector is IRIntegerVector integerVector)
+            {
+                int element = integerVector[index];
+                if (element == int.MinValue)
+                {
+                    value = default(int);
+                    return false;
+                }
+
+                value = element;
+                return true;
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Gets the element at the specified index as a real number.
         /// </summary>
         /// <param name="index">The index of the element</param>
         /// <returns>The element at the specified index as a double.</returns>
         public double GetReal(long index)
         {
-            if (_vector is IRRealVector vector)
+            if (TryGetReal(index, out double value))
             {
-                return vector[index];
+                return value;
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Gets the element at the specified index as a real number.
+        /// </summary>
+        /// <param name="index">The index of the element to get.</param>
+        /// <param name="value">When this method returns, contains the value for the element, if it is not <c>null</c>.</param>
+        /// <returns><c>true</c> if the element is not <c>null</c>; <c>false</c> otherwise.</returns>
+        public bool TryGetReal(long index, out double value)
+        {
+            if (_vector is IRRealVector realVector)
+            {
+                double element = realVector[index];
+                if (double.IsNaN(element) && (BitConverter.DoubleToInt64Bits(element) & 0x0007FFFFFFFFFFFF) != 0)
+                {
+                    value = default(double);
+                    return false;
+                }
+
+                value = element;
+                return true;
+            }
+            else if (_vector is IRIntegerVector integerVector)
+            {
+                int element = integerVector[index];
+                if (element == int.MinValue)
+                {
+                    value = default(double);
+                    return false;
+                }
+
+                value = element;
+                return true;
             }
 
             throw new InvalidOperationException();
