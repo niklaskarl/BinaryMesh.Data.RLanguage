@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BinaryMesh.Data.RLanguage.Graph;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BinaryMesh.Data.RLanguage.Tests
 {
