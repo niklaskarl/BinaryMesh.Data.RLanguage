@@ -4,8 +4,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="SampleData\simple.rds" />
-    <EmbeddedResource Include="SampleData\simple_serialize.rds" />
+    <EmbeddedResource Include="SampleData\simple_dataframe.rds" />
+    <EmbeddedResource Include="SampleData\simple_dataframe_serialize.rds" />
+    <EmbeddedResource Include="SampleData\simple_vector.rds" />
   </ItemGroup>
 
   <ItemGroup>

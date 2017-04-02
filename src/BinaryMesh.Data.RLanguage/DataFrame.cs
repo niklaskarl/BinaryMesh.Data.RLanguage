@@ -109,8 +109,8 @@ namespace BinaryMesh.Data.RLanguage
         /// <returns>The unserialized data frame.</returns>
         public static DataFrame ReadFromStream(Stream stream)
         {
-            IRNode obj = Serializer.Unserialize(stream);
-            return new DataFrame(obj);
+            IRNode node = Serializer.Unserialize(stream);
+            return new DataFrame(node);
         }
 
         /// <summary>

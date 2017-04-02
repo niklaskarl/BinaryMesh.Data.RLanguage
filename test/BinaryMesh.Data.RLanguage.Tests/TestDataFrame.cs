@@ -12,12 +12,12 @@ namespace BinaryMesh.Data.RLanguage.Tests
         public void TestSimpleFile()
         {
             Assembly assembly = typeof(TestDataFrame).GetTypeInfo().Assembly;
-            using (Stream stream = assembly.GetManifestResourceStream("BinaryMesh.Data.RLanguage.Tests.SampleData.simple.rds"))
+            using (Stream stream = assembly.GetManifestResourceStream("BinaryMesh.Data.RLanguage.Tests.SampleData.simple_dataframe.rds"))
             {
                 DataFrame dataFrame = DataFrame.ReadFromStream(stream);
 
-                Assert.AreEqual(dataFrame.Columns.Count, 2);
-                Assert.AreEqual(dataFrame.RowCount, 10);
+                Assert.AreEqual(2, dataFrame.Columns.Count);
+                Assert.AreEqual(10, dataFrame.RowCount);
 
                 Assert.IsTrue(dataFrame.Columns.ContainsKey("time"));
                 Assert.IsTrue(dataFrame.Columns.ContainsKey("val"));
@@ -28,12 +28,12 @@ namespace BinaryMesh.Data.RLanguage.Tests
         public void TestSimpleSerializeFile()
         {
             Assembly assembly = typeof(TestDataFrame).GetTypeInfo().Assembly;
-            using (Stream stream = assembly.GetManifestResourceStream("BinaryMesh.Data.RLanguage.Tests.SampleData.simple_serialize.rds"))
+            using (Stream stream = assembly.GetManifestResourceStream("BinaryMesh.Data.RLanguage.Tests.SampleData.simple_dataframe_serialize.rds"))
             {
                 DataFrame dataFrame = DataFrame.ReadFromStream(stream);
 
-                Assert.AreEqual(dataFrame.Columns.Count, 2);
-                Assert.AreEqual(dataFrame.RowCount, 10);
+                Assert.AreEqual(2, dataFrame.Columns.Count);
+                Assert.AreEqual(10, dataFrame.RowCount);
 
                 Assert.IsTrue(dataFrame.Columns.ContainsKey("time"));
                 Assert.IsTrue(dataFrame.Columns.ContainsKey("val"));
