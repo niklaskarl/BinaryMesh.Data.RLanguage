@@ -76,7 +76,7 @@ namespace BinaryMesh.Data.RLanguage
         /// the readRDS or the serialize function.
         /// </summary>
         /// <param name="stream">The stream from which to read the serialized data.</param>
-        /// <returns></returns>
+        /// <returns>The unserialized vector.</returns>
         public static Vector ReadFromStream(Stream stream)
         {
             IRNode node = Serializer.Unserialize(stream);

@@ -69,14 +69,13 @@ namespace BinaryMesh.Data.RLanguage
                                 throw new InvalidDataException("The columns have different numbers of rows.");
                             }
                         }
-                        
+
                         c[i] = new DataFrameColumn(names[i], (IRVector)columns[i]);
                     }
                     else
                     {
                         throw new InvalidDataException();
                     }
-
                 }
 
                 Columns = new DataFrameColumnCollection(c);
@@ -97,7 +96,7 @@ namespace BinaryMesh.Data.RLanguage
         /// Gets the number of rows in the data frame.
         /// </summary>
         public long RowCount { get; }
-        
+
         /// <summary>
         /// Reads a data frame from a serialized data source. This can either be a file created with
         /// the readRDS or the serialize function.

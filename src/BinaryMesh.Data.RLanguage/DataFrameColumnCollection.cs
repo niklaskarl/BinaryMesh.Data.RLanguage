@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="DataFrameColumnCollection.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -40,6 +46,7 @@ namespace BinaryMesh.Data.RLanguage
         /// </summary>
         public IEnumerable<DataFrameColumn> Values => this;
 
+        /// <inheritdoc/>
         bool ICollection<DataFrameColumn>.IsReadOnly => true;
 
         /// <summary>
@@ -65,6 +72,7 @@ namespace BinaryMesh.Data.RLanguage
             }
         }
 
+        /// <inheritdoc/>
         DataFrameColumn IList<DataFrameColumn>.this[int index]
         {
             get => _columns[index];
@@ -102,7 +110,11 @@ namespace BinaryMesh.Data.RLanguage
             return ((IList<DataFrameColumn>)_columns).IndexOf(item);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Determined whether a <see cref="DataFrameColumn"/> is in the collection.
+        /// </summary>
+        /// <param name="item">The <see cref="DataFrameColumn"/> to locate in the collection.</param>
+        /// <returns><c>true</c> if <paramref name="item"/> is found in the collection; otherwise, <c>false</c>.</returns>
         public bool Contains(DataFrameColumn item)
         {
             return ((IList<DataFrameColumn>)_columns).Contains(item);
@@ -122,7 +134,7 @@ namespace BinaryMesh.Data.RLanguage
         /// Copies the entire collection to a compatible one-dimensional array, starting at the specified index of the target array.
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="Array"/> that is the destination of the <see cref="DataFrameColumn"/>s copied from the collection. The <see cref="Array"/> must have zero-based indexing.</param>
-        /// <param name="arrayIndex"></param>
+        /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
         public void CopyTo(DataFrameColumn[] array, int arrayIndex)
         {
             ((IList<DataFrameColumn>)_columns).CopyTo(array, arrayIndex);
@@ -137,6 +149,7 @@ namespace BinaryMesh.Data.RLanguage
             return ((IList<DataFrameColumn>)_columns).GetEnumerator();
         }
 
+        /// <inheritdoc/>
         IEnumerator<KeyValuePair<string, DataFrameColumn>> IEnumerable<KeyValuePair<string, DataFrameColumn>>.GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
@@ -145,31 +158,37 @@ namespace BinaryMesh.Data.RLanguage
             }
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <inheritdoc/>
         void IList<DataFrameColumn>.Insert(int index, DataFrameColumn item)
         {
             throw new NotSupportedException();
         }
 
+        /// <inheritdoc/>
         void ICollection<DataFrameColumn>.Add(DataFrameColumn item)
         {
             throw new NotSupportedException();
         }
 
+        /// <inheritdoc/>
         void IList<DataFrameColumn>.RemoveAt(int index)
         {
             throw new NotSupportedException();
         }
 
+        /// <inheritdoc/>
         bool ICollection<DataFrameColumn>.Remove(DataFrameColumn item)
         {
             throw new NotSupportedException();
         }
 
+        /// <inheritdoc/>
         void ICollection<DataFrameColumn>.Clear()
         {
             throw new NotSupportedException();
