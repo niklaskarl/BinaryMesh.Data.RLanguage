@@ -67,7 +67,7 @@ namespace BinaryMesh.Data.RLanguage
         {
             get
             {
-                return _vector[index];
+                return IsNull(index) ? null : _vector[index];
             }
         }
 
