@@ -23,20 +23,18 @@ namespace BinaryMesh.Data.RLanguage
             string[] names = null;
             for (IRList attribute = node.Attribute as IRList; attribute != null; attribute = attribute.Tail)
             {
-                if (attribute.Tag is IRString tag)
+                string tagName = (attribute.Tag as IRString)?.String ?? "class";
+                switch (tagName)
                 {
-                    switch (tag.String)
-                    {
-                        case "class":
-                            isDataFrame = ProcessClassAttribute(attribute.Head);
-                            break;
-                        case "names":
-                            names = ProcessNamesAttribute(attribute.Head);
-                            break;
-                        case "row.names":
-                            ProcessRowNamesAttribute(attribute.Head);
-                            break;
-                    }
+                    case "class":
+                        isDataFrame = ProcessClassAttribute(attribute.Head);
+                        break;
+                    case "names":
+                        names = ProcessNamesAttribute(attribute.Head);
+                        break;
+                    case "row.names":
+                        ProcessRowNamesAttribute(attribute.Head);
+                        break;
                 }
             }
 

@@ -150,7 +150,23 @@ namespace BinaryMesh.Data.RLanguage.Graph
                 int writer_version = reader.ReadInt32();
                 int release_version = reader.ReadInt32();
 
-                if (version != 2)
+                if (version == 2)
+                {
+                    // nothing to do here
+                }
+                if (version == 3)
+                {
+                    int nelen = reader.ReadInt32();
+                    if (nelen > /*R_CODESET_MAX*/ 63)
+                    {
+                        throw new InvalidDataException("Invalid length of encoding name");
+                    }
+
+                    IRString native_encoding = reader.ReadString(nelen, RString.CharEncoding.Native);
+                    // InString(stream, stream->native_encoding, nelen);
+                    // stream->native_encoding[nelen] = '\0';
+                }
+                else
                 {
                     DecodeVersion(writer_version, out int vw, out int pw, out int sw);
                     if (release_version < 0)
@@ -246,9 +262,9 @@ namespace BinaryMesh.Data.RLanguage.Graph
                 case SEXPTYPE.BASENAMESPACE_SXP:
                     return RObject.BaseNamespace;
                 case SEXPTYPE.REFSXP:
+                    int refIndex = ReadRefIndex(reader, flags);
                     // return GetReadRef(ref_table, InRefIndex(stream, flags));
-                    ThrowTypeNotSupported("REFSXSP");
-                    break;
+                    return null;
                 case SEXPTYPE.PERSISTSXP:
                     // return PersistentRestore(reader, InStringVec(reader));
                     ThrowTypeNotSupported("PERSISTSXP");
@@ -444,6 +460,19 @@ namespace BinaryMesh.Data.RLanguage.Graph
             else
             {
                 return len;
+            }
+        }
+
+        private static int ReadRefIndex(InputReader reader, int flags)
+        {
+            int i = flags >> 8;
+            if (i == 0)
+            {
+                return reader.ReadInt32();
+            }
+            else
+            {
+                return i;
             }
         }
 
